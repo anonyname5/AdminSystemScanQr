@@ -85,11 +85,11 @@
             paymentSuccessMsg.textContent = 'Payment Successful!';
             document.querySelector('#result').append(paymentSuccessMsg);
 
-            // Set a timeout to remove both messages after 3 seconds
-            setTimeout(() => {
-                successMsg.remove();
-                paymentSuccessMsg.remove();
-            }, 3000);
+            // Remove the timeout to keep the messages displayed
+            // setTimeout(() => {
+            //     successMsg.remove();
+            //     paymentSuccessMsg.remove();
+            // }, 3000);
         }
 
         function onScanFailure(error) {
