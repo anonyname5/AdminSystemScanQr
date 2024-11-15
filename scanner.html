@@ -83,7 +83,7 @@
             const paymentSuccessMsg = document.createElement('div');
             paymentSuccessMsg.className = 'success-message'; // Use the same class for styling
             paymentSuccessMsg.textContent = 'Payment Successful!';
-            document.querySelector('#result').append(paymentSuccessMsg);
+            document.querySelector('#result').prepend(paymentSuccessMsg);
 
             // Remove the timeout to keep the messages displayed
             // setTimeout(() => {
