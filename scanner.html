@@ -12,19 +12,6 @@
             max-width: 800px;
             margin: 0 auto;
         }
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-        }
-        .btn {
-            padding: 10px 20px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-        }
         #reader {
             width: 100%;
             margin: 0 auto;
@@ -34,9 +21,6 @@
             padding: 20px;
             border: 1px solid #ccc;
             border-radius: 5px;
-        }
-        .receipt-details {
-            margin-top: 20px;
         }
         .success-scan {
             background-color: #d4edda;
@@ -49,11 +33,7 @@
     </style>
 </head>
 <body>
-    <div class="header">
-        <h1>Receipt Scanner</h1>
-        <a href="dashboard.html" class="btn">Back to Dashboard</a>
-    </div>
-
+    <h1>Receipt Scanner</h1>
     <div id="reader"></div>
     <div id="result">
         <h2>Scan Result:</h2>
@@ -61,31 +41,40 @@
     </div>
 
     <script>
-        // Function to handle a successful QR scan
         function onScanSuccess(decodedText, decodedResult) {
-            console.log('Decoded Text:', decodedText);
+            console.log("Decoded text:", decodedText);
 
-            const receiptDetails = document.querySelector('.receipt-details');
-            receiptDetails.innerHTML = `
-                <h3>Scan Result</h3>
-                <p>Payment Method: ${decodedText}</p>
-            `;
+            let receiptDetails = document.querySelector('.receipt-details');
+            receiptDetails.innerHTML = "";
+
+            try {
+                // Attempt to parse QR content as JSON
+                const data = JSON.parse(decodedText);
+                receiptDetails.innerHTML = `
+                    <h3>Payment Details</h3>
+                    <p>Payment Method: ${data.paymentMethod || 'N/A'}</p>
+                `;
+            } catch (error) {
+                // If parsing fails, assume plain text (e.g., "Credit Card")
+                console.warn("Invalid JSON format, treating as plain text.");
+                receiptDetails.innerHTML = `
+                    <h3>Payment Method</h3>
+                    <p>${decodedText}</p>
+                `;
+            }
 
             const successMsg = document.createElement('div');
             successMsg.className = 'success-scan';
             successMsg.textContent = 'Receipt scanned successfully!';
             document.querySelector('#result').prepend(successMsg);
 
-            // Remove the success message after 3 seconds
             setTimeout(() => successMsg.remove(), 3000);
         }
 
-        // Function to handle scanning failure
         function onScanFailure(error) {
-            console.warn('QR Code scanning failed:', error);
+            console.warn("QR Code scanning failed:", error);
         }
 
-        // Initialize the QR Code scanner
         const html5QrcodeScanner = new Html5QrcodeScanner("reader", {
             fps: 30,
             qrbox: { width: 300, height: 300 }
