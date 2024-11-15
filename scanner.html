@@ -73,16 +73,19 @@
                 `;
             }
 
+            // Create and display the success message for scanning
             const successMsg = document.createElement('div');
             successMsg.className = 'success-scan';
             successMsg.textContent = 'Receipt scanned successfully!';
             document.querySelector('#result').prepend(successMsg);
 
+            // Create and display the payment successful message
             const paymentSuccessMsg = document.createElement('div');
-            paymentSuccessMsg.className = 'success-message';
+            paymentSuccessMsg.className = 'success-message'; // Use the same class for styling
             paymentSuccessMsg.textContent = 'Payment Successful!';
             document.querySelector('#result').append(paymentSuccessMsg);
 
+            // Set a timeout to remove both messages after 3 seconds
             setTimeout(() => {
                 successMsg.remove();
                 paymentSuccessMsg.remove();
