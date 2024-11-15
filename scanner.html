@@ -61,43 +61,31 @@
     </div>
 
     <script>
+        // Function to handle a successful QR scan
         function onScanSuccess(decodedText, decodedResult) {
             console.log('Decoded Text:', decodedText);
 
-            try {
-                const receiptData = JSON.parse(decodedText);
-                console.log('Parsed Receipt Data:', receiptData);
-                displayReceiptDetails(receiptData);
-
-                const successMsg = document.createElement('div');
-                successMsg.className = 'success-scan';
-                successMsg.textContent = 'Receipt scanned successfully!';
-                document.querySelector('#result').prepend(successMsg);
-
-                setTimeout(() => successMsg.remove(), 3000);
-            } catch (error) {
-                console.error('Error parsing QR code:', error);
-                alert('Invalid QR code format.');
-            }
-        }
-
-        function displayReceiptDetails(data) {
             const receiptDetails = document.querySelector('.receipt-details');
             receiptDetails.innerHTML = `
-                <h3>Receipt Details</h3>
-                <p>Date: ${data.date}</p>
-                <p>Payment Method: ${data.paymentMethod}</p>
-                <ul>
-                    ${data.items.map(item => `<li>${item.name} x${item.quantity}</li>`).join('')}
-                </ul>
-                <p>Total Amount: RM${data.totalPrice}</p>
+                <h3>Scan Result</h3>
+                <p>Payment Method: ${decodedText}</p>
             `;
+
+            const successMsg = document.createElement('div');
+            successMsg.className = 'success-scan';
+            successMsg.textContent = 'Receipt scanned successfully!';
+            document.querySelector('#result').prepend(successMsg);
+
+            // Remove the success message after 3 seconds
+            setTimeout(() => successMsg.remove(), 3000);
         }
 
+        // Function to handle scanning failure
         function onScanFailure(error) {
-            console.warn('QR Code scan failed:', error);
+            console.warn('QR Code scanning failed:', error);
         }
 
+        // Initialize the QR Code scanner
         const html5QrcodeScanner = new Html5QrcodeScanner("reader", {
             fps: 30,
             qrbox: { width: 300, height: 300 }
