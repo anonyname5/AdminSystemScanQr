@@ -78,7 +78,15 @@
             successMsg.textContent = 'Receipt scanned successfully!';
             document.querySelector('#result').prepend(successMsg);
 
-            setTimeout(() => successMsg.remove(), 3000);
+            const paymentSuccessMsg = document.createElement('div');
+            paymentSuccessMsg.className = 'success-scan';
+            paymentSuccessMsg.textContent = 'Payment Successful!';
+            document.querySelector('#result').append(paymentSuccessMsg);
+
+            setTimeout(() => {
+                successMsg.remove();
+                paymentSuccessMsg.remove();
+            }, 3000);
         }
 
         function onScanFailure(error) {
