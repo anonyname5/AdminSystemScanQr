@@ -53,7 +53,7 @@
 
                 // Build receipt details from JSON data
                 const itemsHtml = data.items
-                    .map(item => `<li>${item.name}: RM${item.price} x${item.quantity}</li>`)
+                    .map(item => `<li>${item.name}: RM${item.originalPrice} x${item.quantity} (Discount: ${item.discount}%)</li>`)
                     .join("");
 
                 receiptDetails.innerHTML = `
@@ -85,7 +85,7 @@
             paymentSuccessMsg.textContent = 'Payment Successful!';
             document.querySelector('#result').prepend(paymentSuccessMsg);
 
-            // Remove the timeout to keep the messages displayed
+            // Ensure no timeout is set to remove messages
             // setTimeout(() => {
             //     successMsg.remove();
             //     paymentSuccessMsg.remove();
