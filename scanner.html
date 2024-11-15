@@ -50,15 +50,25 @@
             try {
                 // Attempt to parse QR content as JSON
                 const data = JSON.parse(decodedText);
+
+                // Build receipt details from JSON data
+                const itemsHtml = data.items
+                    .map(item => `<li>${item.name}: RM${item.price} x${item.quantity}</li>`)
+                    .join("");
+
                 receiptDetails.innerHTML = `
                     <h3>Payment Details</h3>
-                    <p>Payment Method: ${data.paymentMethod || 'N/A'}</p>
+                    <p>Date: ${data.date || "N/A"}</p>
+                    <p>Payment Method: ${data.paymentMethod || "N/A"}</p>
+                    <p>Items Purchased:</p>
+                    <ul>${itemsHtml}</ul>
+                    <p>Total Price: RM${data.totalPrice || "N/A"}</p>
                 `;
             } catch (error) {
-                // If parsing fails, assume plain text (e.g., "Credit Card")
+                // Handle plain text or invalid JSON
                 console.warn("Invalid JSON format, treating as plain text.");
                 receiptDetails.innerHTML = `
-                    <h3>Payment Method</h3>
+                    <h3>Scan Result</h3>
                     <p>${decodedText}</p>
                 `;
             }
